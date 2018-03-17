@@ -22,20 +22,28 @@ trainingData = numpy.array([[string.ascii_lowercase for i in xrange(inputNodes)]
 trainingLabels = numpy.array(getLabel(trainingData))
 
 numpy.random.seed(1)
-inputLayerSynapses = [[]]
-hiddenLayerOneSynapses =
-hiddenLayerTwoSynapses
+inputLayerSynapses = numpy.random.random((inputNodes, hiddenLayerOneNodes)) * 2 - 1
+hiddenLayerOneSynapses = numpy.random.random((hiddenLayerOneNodes, hiddenLayerTwoNodes)) * 2 - 1
+hiddenLayerTwoSynapses = numpy.random.random((hiddenLayerTwoNodes, outputNodes)) * 2 - 1
 
 for k in xrange(trainingItterations):
     #Foward propegation
     inputLayerValues = trainingData
-    hiddenLayerOneValues = numpy.dot(inputLayerValues, inputLayerSynapses)
-    hiddenLayerTwoValues = numpy.dot(hiddenLayerOneValues, hiddenLayerOneSynapses)
-    outputLayerValues = numpy.dot(hiddenLayerTwoValues, hiddenLayerTwoValues)
+    hiddenLayerOneValues = sigmoid(numpy.dot(inputLayerValues, inputLayerSynapses))
+    hiddenLayerTwoValues = sigmoid(numpy.dot(hiddenLayerOneValues, hiddenLayerOneSynapses))
+    outputLayerValues = sigmoid(numpy.dot(hiddenLayerTwoValues, hiddenLayerTwoValues))
     #Back propegation
     outputLayerError = trainingLabels.T - outputLayerValues
     outputLayerDelta = outputError * sigmoid(outputValues, derivativeMode = True)
     hiddenLayerTwoError = numpy.dot(outputLayerDelta, hiddenLayerTwoSynapses.T)
-    hiddenLayerTwoDelta = hiddenLayerTwoError * sigmoid(hiddenLayerTwoValues, derivativeMode = False)
+    hiddenLayerTwoDelta = hiddenLayerTwoError * sigmoid(hiddenLayerTwoValues, derivativeMode = True)
     hiddenLayerOneError = numpy.dot(hiddenlayerTwoDelta, hiddenLayerOneSynapses.T)
-    hiddenLayerTwoDelta = hiddenLayerOneError * sigmoid(hiddenLayerOneValues, derivativeMode = True)
+    hiddenLayerOneDelta = hiddenLayerOneError * sigmoid(hiddenLayerOneValues, derivativeMode = True)
+
+    inputLayerSynapses += numpy.dot(inputValues.T, hiddenLayerOnelta)
+    hiddenLayerOneSynapses += numpy.dot(hiddenLayerOneValues.T, hiddenlayerOneDelta)
+    hiddenLayerTwoSynapses += numpy.dot(hiddenLaeyerTwoValues.T, hiddenlayerTwoDelta)
+
+while (True):
+    inputLayerValues = [raw_input("value %i" % i) for i in xrange(inputNodes)]
+    hiddenLayerOneValues = numpy.dot(inputLayerValues)
