@@ -17,12 +17,20 @@ def sigmoid(point, derivativeMode = False):
 def getLabel(data):
     if (data.startswith(purpose)): return 1
     else: return 0
-
-trainingData = numpy.array([[string.ascii_lowercase for i in xrange(inputNodes)] for j in xrange(trainingDataAmount)])
+#TEMP
+def hotEncode(string):
+    characters = "abcdefghijklmnopqrstuvwxyz"
+    #array = numpy.array([numpy.zeros(26) for i in xrange(26)])
+    #for j in xrange(len(array)): array[j][characters.index(string[j])] = 1
+    #return array
+    #print(numpy.eye(26)[characters.index(list(string))])
+    numbers = [characters.index(string[i]) for i in xrange(len(string))]
+    return numpy.eye(26)[numbers]
+trainingData = numpy.array([hotEncode([string.ascii_lowercase for i in xrange(inputLayerNodes)]) for j in xrange(trainingDataAmount)])
 trainingLabels = numpy.array(getLabel(trainingData))
 
 numpy.random.seed(1)
-inputLayerSynapses = numpy.random.random((inputNodes, hiddenLayerOneNodes)) * 2 - 1
+inputLayerSynapses = numpy.random.random((inputLayerNodes, hiddenLayerOneNodes)) * 2 - 1
 hiddenLayerOneSynapses = numpy.random.random((hiddenLayerOneNodes, hiddenLayerTwoNodes)) * 2 - 1
 hiddenLayerTwoSynapses = numpy.random.random((hiddenLayerTwoNodes, outputNodes)) * 2 - 1
 
