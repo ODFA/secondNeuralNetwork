@@ -15,7 +15,15 @@ def sigmoid(point, derivativeMode = False):
     else: return (1 / (1 + numpy.exp(-point)))
 
 def getLabel(data):
-    if (data.startswith(purpose)): return 1
+    characters = "abcdefghijklmnopqrstuvwxyz"
+    outputString = ""
+    for i in data:
+        for j in i:
+            for k in xrange(len(j)):
+                if (j[k] == 1):
+                    outputString += characters[k]
+                    break
+    if (outputString.startswith(purpose)): return 1
     else: return 0
 #TEMP
 def hotEncode(string):
@@ -24,7 +32,7 @@ def hotEncode(string):
     #for j in xrange(len(array)): array[j][characters.index(string[j])] = 1
     #return array
     #print(numpy.eye(26)[characters.index(list(string))])
-    numbers = [characters.index(string[i]) for i in xrange(len(string))]
+    numbers = [characters.index(i) for i in string]
     return numpy.eye(26)[numbers]
 trainingData = numpy.array([hotEncode([string.ascii_lowercase for i in xrange(inputLayerNodes)]) for j in xrange(trainingDataAmount)])
 trainingLabels = numpy.array(getLabel(trainingData))
@@ -32,7 +40,7 @@ trainingLabels = numpy.array(getLabel(trainingData))
 numpy.random.seed(1)
 inputLayerSynapses = numpy.random.random((inputLayerNodes, hiddenLayerOneNodes)) * 2 - 1
 hiddenLayerOneSynapses = numpy.random.random((hiddenLayerOneNodes, hiddenLayerTwoNodes)) * 2 - 1
-hiddenLayerTwoSynapses = numpy.random.random((hiddenLayerTwoNodes, outputNodes)) * 2 - 1
+hiddenLayerTwoSynapses = numpy.random.random((hiddenLayerTwoNodes, outputLayerNodes)) * 2 - 1
 
 for k in xrange(trainingItterations):
     #Foward propegation
